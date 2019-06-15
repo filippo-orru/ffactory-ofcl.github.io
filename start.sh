@@ -1,1 +1,1 @@
-npx light-server -s . -w "**/*.elm # cd elm && elm make src/main.elm --output main.js # reload" -w "static/*.css # # reload-css" -w "static/*.html" -p 8000
+npx light-server -s . -w "**/*.elm # cd elm && elm make src/main.elm --output main.js # reload" -w "static/*.css # # reloadcss" -w "static/*.html" -p 8000
