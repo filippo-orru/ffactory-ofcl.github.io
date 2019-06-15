@@ -1,0 +1,22 @@
+{
+  "name": "ffactory-ofcl.github.io",
+  "version": "1.0.0",
+  "description": "My portfolio page",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ffactory-ofcl/ffactory-ofcl.github.io.git"
+  },
+  "author": "ffactory-ofcl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ffactory-ofcl/ffactory-ofcl.github.io/issues"
+  },
+  "homepage": "https://github.com/ffactory-ofcl/ffactory-ofcl.github.io#readme",
+  "devDependencies": {
+    "light-server": "^2.6.2"
+  }
+}
