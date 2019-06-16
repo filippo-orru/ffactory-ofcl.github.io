@@ -1,4 +1,4 @@
-module Projects exposing (Project, loadProjects)
+module Projects exposing (Project, loadProjects, text)
 
 import Array exposing (Array)
 import Date exposing (Date)
@@ -31,3 +31,13 @@ loadProjects =
     , Project "my room" "#05abfa" Nothing d d Nothing "Modeled my own room in 3D" "long desc Lorem impsum blablabla"
     ]
         |> Array.fromList
+
+
+text : List (String)
+text =
+    Array.map
+        (\p ->
+            " - " ++ p.title ++ " (" ++ Date.format "YYYY" p.to ++ "): " ++ p.desc_short
+        )
+        loadProjects
+        |> Array.toList

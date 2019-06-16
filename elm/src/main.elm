@@ -10,16 +10,20 @@ import Projects exposing (Project)
 
 
 type alias Model =
-    { projects : ProjectsModel
-    , showSplash : Bool
-    , showTooltip : Bool
+    { -- projects : ProjectsModel
+      -- , showSplash : Bool
+      showTooltip : Bool
     , showContactOverlay : Bool
+    , suggestions : List ValidResponse
+    , messages : List Message
+    , writing : String
     }
 
 
-type ViewState
-    = SplashSection
-    | ProjectsSection
+type alias Message =
+    { content : List String
+    , response : Bool
+    }
 
 
 type alias ProjectsModel =
@@ -31,10 +35,12 @@ type alias ProjectsModel =
 
 init : () -> ( Model, Cmd msg )
 init () =
-    ( { projects = ProjectsModel Nothing Nothing Projects.loadProjects
-      , showSplash = True
-      , showTooltip = False
+    ( { --  projects = ProjectsModel Nothing Nothing Projects.loadProjects
+        showTooltip = False
       , showContactOverlay = False
+      , suggestions = [ RProjects, RAbout, RContact, RSkip ]
+      , messages = []
+      , writing = ""
       }
     , Cmd.none
     )
@@ -47,6 +53,14 @@ main =
         , update = update
         , subscriptions = \_ -> subscriptions
         }
+
+
+type ValidResponse
+    = RProjects
+    | RContact
+    | RAbout
+    | RView String
+    | RSkip
 
 
 type KeyPress
@@ -62,6 +76,8 @@ type Msg
     | ToggleContact
     | HideTooltip
     | KeyPress KeyPress
+    | UpdateWriting String
+    | ClickSuggestion ValidResponse
 
 
 update : Msg -> Model -> ( Model, Cmd msg )
@@ -72,95 +88,159 @@ update msg model =
     in
     case msg of
         KeyPress EnterKey ->
-            ( { model | showSplash = not model.showSplash }, Cmd.none )
+            -- ( { model | showSplash = not model.showSplash }, Cmd.none )
+            update Submit model
+
+        UpdateWriting m ->
+            ( { model | writing = m }, Cmd.none )
+
+        Submit ->
+            let
+                messages =
+                    model.messages ++ [ Message [ model.writing ] False, generateResponse model.suggestions model.writing ]
+            in
+            if model.writing /= "" then
+                ( { model | messages = messages, writing = "" }, Cmd.none )
+
+            else
+                ( model, Cmd.none )
+
+        ClickSuggestion sugg ->
+            update Submit <| Tuple.first (update (UpdateWriting <| responseToString sugg) model)
 
         _ ->
             ( model, Cmd.none )
+
+
+generateResponse : List ValidResponse -> String -> Message
+generateResponse suggestions writing =
+    let
+        maybewriting =
+            responseFromString writing
+
+        response =
+            case maybewriting of
+                Just RProjects ->
+                    Projects.text
+
+                Just RContact ->
+                    [ "Contact me at ffactory@outlook.de" ]
+
+                Just RAbout ->
+                    [ "I'm a web developer working mostly in elm!" ]
+
+                Just (RView name) ->
+                    [ "information about project \"" ++ name ++ "\"" ]
+
+                Just RSkip ->
+                    [ "loading..." ]
+
+                Nothing ->
+                    [ "invalid command \"" ++ writing ++ "\"" ]
+    in
+    Message response True
+
+
+responseFromString : String -> Maybe ValidResponse
+responseFromString writing =
+    let
+        splitwriting =
+            String.split " " writing
+    in
+    case List.head splitwriting of
+        Just "about" ->
+            Just RAbout
+
+        Just "contact" ->
+            Just RContact
+
+        Just "projects" ->
+            Just RProjects
+
+        Just "view" ->
+            case List.tail splitwriting of
+                Just tail ->
+                    Just (RView <| String.join " " tail)
+
+                Nothing ->
+                    Just (RView "")
+
+        _ ->
+            Nothing
+
+
+responseToString : ValidResponse -> String
+responseToString response =
+    case response of
+        RProjects ->
+            "projects"
+
+        RAbout ->
+            "about"
+
+        RContact ->
+            "contact"
+
+        RSkip ->
+            "skip"
+
+        RView _ ->
+            "view <project>"
 
 
 
 -- ( model, Cmd.none )
 
 
+view : Model -> Browser.Document Msg
 view model =
     let
         viewPage title body =
             { title = title
-            , body = body
+            , body = [ div [ class "body" ] body ]
             }
     in
     viewPage "ffactory" <|
-        [ contactMe ]
-            ++ viewSplash model.showSplash
-            ++ viewProjects model.projects
-
-
-
-{-
-   viewCurrent state =
-       case state of
-           SplashSection ->
-               viewSplash
-
-           ProjectsSection projects ->
-               viewProjects projects
--}
-
-
-viewSplash : Bool -> List (Html Msg)
-viewSplash visible =
-    let
-        cclass =
-            if visible then
-                "splash-container"
-
-            else
-                "splash-container hidden"
-    in
-    [ div [ class cclass ]
-        [ h1 [ class "splash-header mono" ]
-            [ span [] [ text ">./Filippo_Orru" ]
-            , span [ class "blink" ] []
-            ]
-        , div [ class "splash-tooltip", onClick <| KeyPress EnterKey ] [ span [] [ text "Press Enter to begin" ] ]
+        [ contactMe
+        , viewBottomBar model.suggestions model.writing
+        , viewWindow model.messages
         ]
-    ]
 
 
-viewProjects : ProjectsModel -> List (Html Msg)
-viewProjects projects =
-    [ div [ class "projects-wrapper" ]
-        [ div [ class "projects-container" ]
-            (Array.map viewProject projects.list
-            |> Array.toList
-            )
-        ]
-    ]
+viewBottomBar : List ValidResponse -> String -> Html Msg
+viewBottomBar suggestions writing =
+    div [ class "bottombar-wrapper mono" ]
+        [ div [ class "suggestions" ] <|
+            List.map (\s -> div [ class "suggestion", onClick (ClickSuggestion s) ] [ text <| responseToString s ]) suggestions
+        , Html.form [ onSubmit Submit ]
+            [ input [ class "bottombar mono", onInput UpdateWriting, placeholder "type your command", value writing ]
+                []
 
-
-viewProject : Project -> Html Msg
-viewProject project =
-    div [ class "project" ]
-        [ div [ class "project-header" ]
-            [ h3 [ class "project-title" ] [ text project.title ]
-            , span [ class "project-year" ] [ text <| Date.format "YYYY" project.to ]
-            ]
-        , div [ class "project-body" ]
-            [ case project.link of
-                Just link ->
-                    span [ class "project-link" ] [ text link ]
-
-                _ ->
-                    text ""
-            , p [ class "project-description-s" ] [ text project.desc_short ]
+            -- [ button [ class "fas fa-check" ] [ text ">" ] ]
             ]
         ]
+
+
+viewWindow : List Message -> Html Msg
+viewWindow messages =
+    div [ class "window-wrapper" ] <|
+        List.map viewMessage messages
+
+
+viewMessage : Message -> Html Msg
+viewMessage message =
+    div [ class "message mono" ] <|
+        if message.response then
+            List.map (\m -> span [ class "message-line" ] [ text m ]) message.content
+
+        else
+            List.map (\m -> span [ class "message-line" ] [ text m ]) <| [ "visitor@server > " ] ++ message.content
 
 
 contactMe : Html Msg
 contactMe =
     div [ class "contact-container" ]
-        [ span [ class "contact-icon" ] [ text "contact Me!" ]
+        [ span [ class "contact-icon" ] [ text "Contact me!" ]
         ]
 
 
