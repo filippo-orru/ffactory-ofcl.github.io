@@ -1,0 +1,169 @@
+body {
+    /* height: 100vh;
+    width: 100vw; */
+}
+
+body,
+input {
+    font-family: "Open Sans";
+}
+
+.mono {
+    font-family: Consolas;
+}
+
+.contact-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: white;
+    background-color: hsl(216, 95%, 42%);
+    padding: 8px 12px;
+    border-bottom: 0  solid hsl(216, 95%, 65%);
+    border-radius: 8px;
+    transition: border 0.15s;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.contact-container:hover {
+    border-bottom: 2px solid hsl(216, 95%, 65%);
+    transition: border 0.15s;
+}
+
+
+span.blink {
+    margin-left: 6px;
+}
+
+.blink::after {
+    animation: blink 0.75s linear infinite;
+    content: ">";
+}
+
+@keyframes blink {
+    0% {
+        content: "▮";
+        content: "▎";
+    }
+
+    33.3% {
+        content: "▮";
+        content: "▎";
+    }
+
+    66.7% {
+        content: "▯";
+        content: "";
+    }
+
+    100% {
+        content: "▯";
+        content: "";
+    }
+}
+
+.splash-container {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: rgba(7,7,7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(240,240,240);
+    position: absolute;
+    top: 0;
+    transition: top 0.5s ease-in-out;
+}
+
+.splash-container.hidden {
+    top: -100vh;
+    transition: top 0.5s ease-in-out;
+}
+
+.splash-header {
+    font-size: 40px;
+    width: 375px;
+}
+
+.splash-tooltip {
+    position: absolute;
+    bottom: 40px;
+    z-index: 1; 
+    color: black;
+    background-color: white;
+    padding: 8px 12px;
+    border: none;
+    border-bottom: 0px solid black;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: border 0.15s;
+
+}
+
+.splash-tooltip:hover {
+    transition: border 0.15s;
+    border-bottom: 2px solid hsl(216, 95%, 65%);
+}
+
+
+
+/*  === PROJECTS ===  */
+
+.projects-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(7,7,7);
+}
+
+
+.projects-container {
+    box-sizing: border-box;
+    overflow: hidden;
+    width: 600px;
+    /* margin: 64px auto 0 auto; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+}
+
+
+
+
+.project {
+    display: block;
+    box-sizing: border-box;
+    margin: 32px;
+    /* background-color: rgb(7,7,7); */
+    background-color: rgb(240,240,240);
+    width: 100%;
+    border-radius: 24px;
+    /* padding: 16px; */
+}
+
+.project-header {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin-bottom: 24px;
+}
+
+h3.project-title {
+    margin: 0;
+}
+
+span.project-year {
+    margin-left: auto;
+}
+
+.project-body {
+    padding: 0 12px;
+    margin-bottom: 24px;
+}
+
+p.project-description-s {
+    margin: 0;
+}
