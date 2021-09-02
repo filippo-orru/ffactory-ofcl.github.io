@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Your personal voucher</title>
+    <link rel="shortcut icon" href="https://studo.co/assets/favicon/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>body {
+ background-color: rgb(242, 242, 242);
+ font-family: Verdana, Arial, Helvetica, sans-serif;
+ font-size: 14px;
+ line-height: 1.3;
+}
+.container {
+  overflow: hidden;
+  max-width: 450px;
+  margin: 36px auto 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.20), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  background-color: white;
+}
+.container-header {
+  background-color: #FF5252;
+  padding: 10px;
+  color: white;
+  font-size: 20px;
+} 
+.container-content {
+  padding: 20px;
+}
+.content-voucher {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.voucher-token {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #e3e3e3;
+  border-radius: 6px;      
+  margin: 24px 0 18px 0;      
+  height: 64px;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  padding: 0;
+  cursor: pointer;
+}
+.copy-icon {
+  padding: 4px 18px 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff5252;
+  color: white;
+  transition: background-color 0.1s;
+}
+.copy-icon svg {
+  height: 26px;      
+}
+.copy-icon span {
+  margin-bottom: 3px;
+}
+.voucher-token:hover .copy-icon {
+  background-color: #ff5252;
+}
+.voucher-token.done .copy-icon {
+  background-color: #ffefef;
+  color: #db6262;
+}
+.copy-done {
+  display: none;
+}
+.copy-select-next-step {
+  display:none;
+}
+.voucher-token.done .copy-todo {
+  display: none;
+}
+.voucher-token.done .copy-done {
+  display: inherit;
+}
+.voucher-token-content, #voucher-token-input {
+  padding-left: 12px;
+  padding-right: 18px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: monospace;
+  letter-spacing: 1.1px;
+  color: #3c3c3c;
+  transition: background-color 0.1s;
+}
+.voucher-token:hover .voucher-token-content {
+  background-color: #d9d8d8;
+}
+.voucher-token.done .voucher-token-content {
+  background-color: #f5f5f5;
+}
+#voucher-token-input {
+  outline: none;
+  border: none;
+  background: none;
+}
+#voucher-token-input::selection {
+  background: #ff525269;
+}
+.copy-indicator {
+  position: relative;
+  right: -100%;
+}
+.cta-btn {
+  box-sizing: border-box;
+  margin: 24px 0 18px;
+  outline: 0;
+  display: inline-block;
+  text-align: center;
+  user-select: none;
+  line-height: 1.5;
+  transition: all .15s ease-in-out;
+  background: #ff5252;
+  border: 2px solid #ff5252;
+  color: #fff;
+  border-radius: 100px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+.cta-btn:hover {
+  background: #fff;
+  border: 2px solid #ff5252;
+  color: #ff5252;
+  transition: all .1s ease-in-out;
+}
+.center-text {
+  text-align: center;
+}
+.made-with-love {
+  color: #9D9D9D;
+  font-size: 0.875rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+}
+.heart {
+  color: transparent;
+  display: inline-block;
+  animation: heartbeat 2s infinite;
+  font-size: 110%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  text-shadow: 0 0 #9d9d9d;
+}
+@keyframes heartbeat {
+  0%   { transform: scale(.75) }
+  20%  { transform: scale(1) }
+  40%  { transform: scale(.75) }
+  60%  { transform: scale(1) }
+  80%  { transform: scale(.75) }
+  100% { transform: scale(.75) }
+}</style>
+  </head>
+  <body>
+    <div class="container center-text">
+      <div class="container-header"><span>Studo PRO</span></div>
+      <div class="container-content">
+        <div class="content-voucher">
+          <p>Your personal voucher code 🎉</p>
+          <p>Please select the code and copy it manually.</p>
+<button onclick="copy()" onmousedown="resetCopy()" class="voucher-token copy-manually">
+            <div class="copy-icon"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"></path></svg><span class="copy-todo">Select code</span></div>
+            <div class="voucher-token-content"><span id="voucher-token-span" style="">tpbt mrq4 xwkr</span></div>
+          </button>
+          <div class="content-cta"><a class="cta-btn" target="_blank" href="https://studo.com/app?token=tpbt+mrq4+xwkr">Show now!</a></div>
+          <script>function performInApp(request) {
+  try {
+    App.receive(JSON.stringify(request)); // Android
+  } catch (ignore) {
+  }
+
+  try {
+    window.webkit.messageHandlers.App.postMessage(request); // iOS
+  } catch (ignore) {
+  }
+}
+  
+function resetCopy(e) {
+  document.querySelector(".voucher-token").classList.remove("done");
+}function copy(e) {
+  let voucherTokenElement = document.querySelector("#voucher-token-span");
+  // Create invisible input element
+  let inputElement = document.createElement('input');
+  inputElement.type = 'text';
+  inputElement.id = "voucher-token-input";
+  inputElement.value = "tpbt mrq4 xwkr";
+  inputElement.size = inputElement.value.length;
+  voucherTokenElement.parentElement.appendChild(inputElement);
+  inputElement.focus();
+  inputElement.select();
+  voucherTokenElement.style.display = "none"; // hide
+  inputElement.addEventListener('focusout', () => {
+      voucherTokenElement.style.display = ""; // show
+      inputElement.remove();
+  });
+  document.querySelector(".voucher-token").classList.add("copy-manually");
+}</script>
+        </div>
+      </div>
+      
+    </div>
+  
+
+<div class="center-text made-with-love"><span>© 2021 Studo - Made with </span><span class="heart">♥</span><span> in Europe</span></div></body></html>
