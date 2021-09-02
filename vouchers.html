@@ -63,6 +63,9 @@
 .copy-icon span {
   margin-bottom: 3px;
 }
+.copy-button-icon-label {
+  white-space: nowrap;
+}
 .voucher-token:hover .copy-icon {
   background-color: #ff5252;
 }
@@ -70,16 +73,16 @@
   background-color: #ffefef;
   color: #db6262;
 }
-.copy-done {
+.copy-button-icon-label.done {
   display: none;
 }
 .copy-select-next-step {
   display:none;
 }
-.voucher-token.done .copy-todo {
+.voucher-token.done .copy-button-icon-label.todo {
   display: none;
 }
-.voucher-token.done .copy-done {
+.voucher-token.done .copy-button-icon-label.done {
   display: inherit;
 }
 .voucher-token-content, #voucher-token-input {
@@ -173,9 +176,9 @@
         <div class="content-voucher">
           <p>Your personal voucher code 🎉</p>
           <p>Please tap to select the code and copy it manually.</p>
-<button onclick="copy()" onmousedown="resetCopy()" class="voucher-token copy-manually">
-            <div class="copy-icon"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"></path></svg><span class="copy-todo">Select code</span></div>
-            <div class="voucher-token-content"><span id="voucher-token-span" style="">tpbt mrq4 xwkr</span></div>
+<button onclick="copy()" onmousedown="resetCopy()" class="voucher-token">
+            <div class="copy-icon"><svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433.941 65.941l-51.882-51.882A48 48 0 0 0 348.118 0H176c-26.51 0-48 21.49-48 48v48H48c-26.51 0-48 21.49-48 48v320c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48v-48h80c26.51 0 48-21.49 48-48V99.882a48 48 0 0 0-14.059-33.941zM266 464H54a6 6 0 0 1-6-6V150a6 6 0 0 1 6-6h74v224c0 26.51 21.49 48 48 48h96v42a6 6 0 0 1-6 6zm128-96H182a6 6 0 0 1-6-6V54a6 6 0 0 1 6-6h106v88c0 13.255 10.745 24 24 24h88v202a6 6 0 0 1-6 6zm6-256h-64V48h9.632c1.591 0 3.117.632 4.243 1.757l48.368 48.368a6 6 0 0 1 1.757 4.243V112z"></path></svg><span class="copy-button-icon-label todo">Select code</span></div>
+            <div class="voucher-token-content"><span id="voucher-token-span" style="display: none;">tpbt mrq4 xwkr</span><input type="text" id="voucher-token-input" size="14" style="min-width: 14ch;" readonly="readonly" value="tpbt mrq4 xwkr"></div>
           </button>
           <div class="content-cta"><a class="cta-btn" target="_blank" href="https://studo.com/app?token=tpbt+mrq4+xwkr">Show now!</a></div>
           <script>function performInApp(request) {
@@ -200,6 +203,7 @@ function resetCopy(e) {
   inputElement.id = "voucher-token-input";
   inputElement.value = "tpbt mrq4 xwkr";
   inputElement.size = inputElement.value.length;
+  inputElement.style.minWidth = "14ch";
   inputElement.readOnly = true;
   voucherTokenElement.parentElement.appendChild(inputElement);
   inputElement.focus();
@@ -209,7 +213,6 @@ function resetCopy(e) {
       voucherTokenElement.style.display = ""; // show
       inputElement.remove();
   });
-  document.querySelector(".voucher-token").classList.add("copy-manually");
 }</script>
         </div>
       </div>
